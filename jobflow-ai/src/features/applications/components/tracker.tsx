@@ -12,8 +12,8 @@ export function Tracker() {
     <div className="space-y-6">
       <StatCards applications={applications} />
 
-      <div className="flex items-center gap-2 rounded-xl border border-border bg-card/30 px-4 py-2.5 text-sm text-muted-foreground">
-        <Info className="size-4 shrink-0 text-primary" />
+      <div className="label flex items-center gap-2 border border-foreground bg-card px-4 py-2.5 text-muted-foreground">
+        <Info className="size-4 shrink-0 text-accent" />
         Drag any card between columns to update its stage.
       </div>
 

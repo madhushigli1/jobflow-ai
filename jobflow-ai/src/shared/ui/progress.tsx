@@ -13,22 +13,17 @@ export function Progress({
   tone?: "brand" | "success" | "warning";
 }) {
   const pct = clamp(value, 0, 100);
-  const fill =
-    tone === "success"
-      ? "from-success to-success"
-      : tone === "warning"
-        ? "from-warning to-warning"
-        : "from-primary to-accent";
+  const fill = tone === "warning" ? "bg-muted-foreground" : tone === "success" ? "bg-accent" : "bg-foreground";
   return (
     <div
       role="progressbar"
       aria-valuenow={Math.round(pct)}
       aria-valuemin={0}
       aria-valuemax={100}
-      className={cn("h-2 w-full overflow-hidden rounded-full bg-muted", className)}
+      className={cn("h-2.5 w-full overflow-hidden border border-foreground bg-card", className)}
     >
       <div
-        className={cn("h-full rounded-full bg-gradient-to-r transition-[width] duration-700 ease-out", fill)}
+        className={cn("h-full transition-[width] duration-700 ease-out", fill)}
         style={{ width: `${pct}%` }}
       />
     </div>

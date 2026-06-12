@@ -66,7 +66,7 @@ export function AreaChart({
           const gy = y(v);
           return (
             <g key={i}>
-              <line x1={pad.left} y1={gy} x2={W - pad.right} y2={gy} stroke="hsl(230 20% 18%)" strokeWidth="1" />
+              <line x1={pad.left} y1={gy} x2={W - pad.right} y2={gy} stroke="hsl(var(--foreground) / 0.12)" strokeWidth="1" />
               <text x={pad.left - 8} y={gy + 3} textAnchor="end" className="fill-muted-foreground text-[9px]">
                 {Math.round(v)}
               </text>
@@ -114,9 +114,9 @@ export function AreaChart({
         ))}
         {hover !== null && (
           <g>
-            <line x1={x(hover)} y1={pad.top} x2={x(hover)} y2={pad.top + innerH} stroke="hsl(258 90% 66% / 0.4)" strokeDasharray="3 3" />
+            <line x1={x(hover)} y1={pad.top} x2={x(hover)} y2={pad.top + innerH} stroke="hsl(var(--accent))" strokeDasharray="3 3" />
             {series.map((s, i) => (
-              <circle key={i} cx={x(hover)} cy={y(s.values[hover])} r="4" fill={s.color} stroke="hsl(230 35% 5%)" strokeWidth="2" />
+              <circle key={i} cx={x(hover)} cy={y(s.values[hover])} r="4" fill={s.color} stroke="hsl(var(--background))" strokeWidth="2" />
             ))}
           </g>
         )}
@@ -124,7 +124,7 @@ export function AreaChart({
 
       {hover !== null && (
         <div
-          className="pointer-events-none absolute top-2 z-10 rounded-lg border border-border bg-background-elevated/95 px-3 py-2 text-xs shadow-xl backdrop-blur"
+          className="pointer-events-none absolute top-2 z-10 border-2 border-foreground bg-card px-3 py-2 text-xs shadow-brutal-sm"
           style={{ left: `${(x(hover) / W) * 100}%`, transform: "translateX(-50%)" }}
         >
           <p className="font-medium">{labels[hover]}</p>
@@ -210,7 +210,7 @@ export function DonutChart({
 /** Horizontal funnel with animated bars and conversion percentages. */
 export function FunnelChart({ data }: { data: { stage: string; value: number }[] }) {
   const max = Math.max(...data.map((d) => d.value), 1);
-  const colors = ["hsl(199 92% 56%)", "hsl(234 89% 64%)", "hsl(258 90% 66%)", "hsl(152 60% 48%)"];
+  const colors = ["hsl(var(--foreground))", "hsl(var(--foreground) / 0.6)", "hsl(var(--foreground) / 0.4)", "hsl(var(--accent))"];
   return (
     <div className="space-y-3">
       {data.map((d, i) => {
@@ -225,9 +225,9 @@ export function FunnelChart({ data }: { data: { stage: string; value: number }[]
                 <span className="ml-1.5 text-xs text-muted-foreground">{conv}%</span>
               </span>
             </div>
-            <div className="h-7 overflow-hidden rounded-lg bg-muted">
+            <div className="h-7 overflow-hidden border border-foreground bg-muted">
               <motion.div
-                className="h-full rounded-lg"
+                className="h-full"
                 style={{ background: colors[i % colors.length] }}
                 initial={{ width: 0 }}
                 whileInView={{ width: `${pct}%` }}
@@ -250,7 +250,7 @@ export function MiniBars({ values, className }: { values: number[]; className?: 
       {values.map((v, i) => (
         <motion.span
           key={i}
-          className="flex-1 rounded-sm bg-gradient-to-t from-primary/40 to-primary"
+          className="flex-1 bg-foreground"
           initial={{ height: 0 }}
           whileInView={{ height: `${(v / max) * 100}%` }}
           viewport={{ once: true }}

@@ -1,31 +1,30 @@
-import { Quote } from "lucide-react";
 import { Container, Section, Eyebrow, Reveal, Avatar } from "@/shared/ui";
 import { testimonials } from "@/shared/lib/mock-db";
 
 export function Testimonials() {
   return (
-    <Section>
+    <Section className="border-b-2 border-foreground">
       <Container>
-        <Reveal className="mx-auto max-w-2xl text-center">
+        <Reveal className="max-w-2xl">
           <Eyebrow>Loved by job seekers</Eyebrow>
-          <h2 className="mt-5 text-4xl font-semibold tracking-tight sm:text-5xl">
+          <h2 className="mt-5 font-serif text-5xl font-light tracking-tight sm:text-6xl">
             Offers, not anxiety
           </h2>
         </Reveal>
 
-        <div className="mt-14 columns-1 gap-4 sm:columns-2 lg:columns-2 [&>*]:mb-4">
+        <div className="mt-12 grid gap-px border-2 border-foreground bg-foreground sm:grid-cols-2">
           {testimonials.map((t, i) => (
             <Reveal key={t.name} delay={(i % 2) * 0.08}>
-              <figure className="break-inside-avoid rounded-2xl border border-border bg-card/40 p-6">
-                <Quote className="size-6 text-primary/60" />
-                <blockquote className="mt-4 text-pretty leading-relaxed text-foreground/90">
-                  “{t.quote}”
+              <figure className="flex h-full flex-col bg-card p-8">
+                <span className="font-serif text-6xl leading-none text-accent">“</span>
+                <blockquote className="-mt-4 font-serif text-2xl font-light leading-snug text-foreground">
+                  {t.quote}
                 </blockquote>
-                <figcaption className="mt-5 flex items-center gap-3">
+                <figcaption className="mt-6 flex items-center gap-3 border-t border-foreground pt-5">
                   <Avatar name={t.name} size="sm" />
                   <div>
-                    <p className="text-sm font-medium">{t.name}</p>
-                    <p className="text-xs text-muted-foreground">{t.role}</p>
+                    <p className="text-sm font-semibold">{t.name}</p>
+                    <p className="label text-muted-foreground">{t.role}</p>
                   </div>
                 </figcaption>
               </figure>

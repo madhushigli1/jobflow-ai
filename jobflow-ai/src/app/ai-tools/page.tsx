@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Sparkles } from "lucide-react";
 import { Container, Eyebrow } from "@/shared/ui";
 import { AiTools } from "@/features/ai-tools";
 
@@ -13,11 +12,9 @@ export default function AiToolsPage() {
   return (
     <Container className="py-12">
       <div className="max-w-2xl">
-        <Eyebrow>
-          <Sparkles className="size-3.5" /> AI workspace
-        </Eyebrow>
-        <h1 className="mt-5 text-3xl font-semibold tracking-tight sm:text-4xl">
-          Your unfair advantage
+        <Eyebrow>AI Workspace</Eyebrow>
+        <h1 className="mt-5 font-serif text-5xl font-light tracking-tight sm:text-6xl">
+          Your unfair <span className="italic text-accent">advantage</span>
         </h1>
         <p className="mt-3 text-muted-foreground">
           Three AI tools to sharpen every application — analyze your resume, write a

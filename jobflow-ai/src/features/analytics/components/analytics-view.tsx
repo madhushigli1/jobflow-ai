@@ -26,21 +26,19 @@ export function AnalyticsView() {
       label: "Response rate",
       value: `${data.responseRate}%`,
       icon: MessageSquare,
-      tone: "text-accent",
       trend: data.weekly.map((w) => w.applications),
     },
     {
       label: "Interview rate",
       value: `${data.interviewRate}%`,
       icon: TrendingUp,
-      tone: "text-primary",
       trend: data.weekly.map((w) => w.interviews + 1),
     },
     {
       label: "Offer rate",
       value: `${data.offerRate}%`,
       icon: Trophy,
-      tone: "text-success",
+      accent: true,
       trend: [1, 1, 2, 2, 3, 3, 4, 5],
     },
   ];
@@ -48,15 +46,20 @@ export function AnalyticsView() {
   return (
     <div className="space-y-6">
       {/* metric tiles */}
-      <div className="grid gap-4 sm:grid-cols-3">
+      <div className="grid gap-px border-2 border-foreground bg-foreground sm:grid-cols-3">
         {metrics.map((m) => (
-          <div key={m.label} className="rounded-2xl border border-border bg-card/40 p-5">
+          <div key={m.label} className={cn("bg-card p-5", m.accent && "bg-accent text-accent-foreground")}>
             <div className="flex items-start justify-between">
               <div>
-                <p className="text-sm text-muted-foreground">{m.label}</p>
-                <p className="mt-1 text-3xl font-semibold tracking-tight">{m.value}</p>
+                <p className={cn("label", m.accent ? "text-accent-foreground/80" : "text-muted-foreground")}>{m.label}</p>
+                <p className="mt-2 font-serif text-5xl font-light tracking-tight">{m.value}</p>
               </div>
-              <span className={cn("inline-flex size-9 items-center justify-center rounded-lg border border-border bg-background-elevated", m.tone)}>
+              <span
+                className={cn(
+                  "inline-flex size-9 items-center justify-center border-2",
+                  m.accent ? "border-accent-foreground" : "border-foreground bg-background",
+                )}
+              >
                 <m.icon className="size-4" />
               </span>
             </div>
@@ -66,19 +69,19 @@ export function AnalyticsView() {
       </div>
 
       {/* main chart */}
-      <div className="rounded-2xl border border-border bg-card/40 p-6">
-        <div className="flex items-center justify-between">
+      <div className="border-2 border-foreground bg-card p-6">
+        <div className="flex items-center justify-between border-b border-foreground pb-4">
           <div>
-            <h2 className="font-semibold">Application activity</h2>
-            <p className="text-sm text-muted-foreground">Applications &amp; interviews over the last 8 weeks</p>
+            <h2 className="font-serif text-2xl">Application activity</h2>
+            <p className="label mt-1 text-muted-foreground">Applications &amp; interviews · last 8 weeks</p>
           </div>
         </div>
         <div className="mt-5">
           <AreaChart
             labels={data.weekly.map((w) => w.week)}
             series={[
-              { label: "Applications", values: data.weekly.map((w) => w.applications), color: "hsl(258 90% 66%)" },
-              { label: "Interviews", values: data.weekly.map((w) => w.interviews), color: "hsl(199 92% 56%)" },
+              { label: "Applications", values: data.weekly.map((w) => w.applications), color: "hsl(var(--foreground))" },
+              { label: "Interviews", values: data.weekly.map((w) => w.interviews), color: "hsl(var(--accent))" },
             ]}
           />
         </div>
@@ -86,24 +89,24 @@ export function AnalyticsView() {
 
       <div className="grid gap-6 lg:grid-cols-2">
         {/* funnel */}
-        <div className="rounded-2xl border border-border bg-card/40 p-6">
-          <h2 className="font-semibold">Conversion funnel</h2>
-          <p className="text-sm text-muted-foreground">How applications progress to offers</p>
+        <div className="border-2 border-foreground bg-card p-6">
+          <h2 className="font-serif text-2xl">Conversion funnel</h2>
+          <p className="label mt-1 text-muted-foreground">How applications progress to offers</p>
           <div className="mt-6">
             <FunnelChart data={data.funnel} />
           </div>
         </div>
 
         {/* donut */}
-        <div className="rounded-2xl border border-border bg-card/40 p-6">
-          <h2 className="font-semibold">Applications by work mode</h2>
-          <p className="text-sm text-muted-foreground">Where you&apos;re focusing your search</p>
+        <div className="border-2 border-foreground bg-card p-6">
+          <h2 className="font-serif text-2xl">Applications by work mode</h2>
+          <p className="label mt-1 text-muted-foreground">Where you&apos;re focusing your search</p>
           <div className="mt-6">
             <DonutChart
               data={[
-                { label: "Remote", value: data.byWorkMode[0].value, color: "hsl(258 90% 66%)" },
-                { label: "Hybrid", value: data.byWorkMode[1].value, color: "hsl(199 92% 56%)" },
-                { label: "On-site", value: data.byWorkMode[2].value, color: "hsl(234 89% 64%)" },
+                { label: "Remote", value: data.byWorkMode[0].value, color: "hsl(var(--foreground))" },
+                { label: "Hybrid", value: data.byWorkMode[1].value, color: "hsl(var(--accent))" },
+                { label: "On-site", value: data.byWorkMode[2].value, color: "hsl(var(--foreground) / 0.35)" },
               ]}
             />
           </div>
@@ -111,22 +114,22 @@ export function AnalyticsView() {
       </div>
 
       {/* top matches */}
-      <div className="rounded-2xl border border-border bg-card/40 p-6">
-        <h2 className="font-semibold">Your top matches</h2>
-        <p className="text-sm text-muted-foreground">Highest-fit roles you haven&apos;t applied to yet</p>
-        <ul className="mt-5 divide-y divide-border">
+      <div className="border-2 border-foreground bg-card p-6">
+        <h2 className="font-serif text-2xl">Your top matches</h2>
+        <p className="label mt-1 text-muted-foreground">Highest-fit roles you haven&apos;t applied to yet</p>
+        <ul className="mt-5 border-t border-foreground">
           {data.topMatches.map((m) => (
-            <li key={m.id}>
+            <li key={m.id} className="border-b border-foreground">
               <Link
                 href={`/jobs/${m.id}`}
-                className="group flex items-center gap-4 py-3 transition-colors hover:text-primary"
+                className="group flex items-center gap-4 py-3 transition-colors hover:text-accent"
               >
-                <span className={cn("grid size-10 shrink-0 place-items-center rounded-lg bg-gradient-to-br text-sm font-bold text-white ring-1 ring-white/10", m.company.brand)}>
+                <span className="grid size-10 shrink-0 place-items-center border-2 border-foreground bg-foreground font-serif text-sm text-background">
                   {m.company.logo}
                 </span>
                 <div className="min-w-0 flex-1">
-                  <p className="truncate text-sm font-medium">{m.title}</p>
-                  <p className="text-xs text-muted-foreground">{m.company.name}</p>
+                  <p className="truncate text-sm font-semibold">{m.title}</p>
+                  <p className="label text-muted-foreground">{m.company.name}</p>
                 </div>
                 <ScoreRing value={m.matchScore} size={40} stroke={4} />
                 <ArrowUpRight className="size-4 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100" />

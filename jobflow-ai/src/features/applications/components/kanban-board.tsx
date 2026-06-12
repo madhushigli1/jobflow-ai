@@ -46,19 +46,19 @@ export function KanbanBoard({
             }}
             onDrop={() => handleDrop(stage.id)}
             className={cn(
-              "flex flex-col rounded-2xl border bg-card/20 p-3 transition-colors",
-              isOver ? "border-primary/50 bg-primary/5" : "border-border",
+              "flex flex-col border-2 border-foreground bg-card/40 p-3 transition-colors",
+              isOver && "bg-accent/10",
             )}
           >
-            <div className="flex items-center gap-2 px-1 pb-3">
-              <span className={cn("size-2 rounded-full", stage.dot)} />
-              <h3 className="text-sm font-semibold">{stage.label}</h3>
-              <span className="ml-auto grid min-w-6 place-items-center rounded-full bg-muted px-1.5 text-xs text-muted-foreground">
+            <div className="flex items-center gap-2 border-b border-foreground px-1 pb-3">
+              <span className={cn("size-2.5", stage.dot)} />
+              <h3 className="label text-foreground">{stage.label}</h3>
+              <span className="ml-auto grid min-w-6 place-items-center border border-foreground bg-background px-1.5 font-mono text-xs">
                 {cards.length}
               </span>
             </div>
 
-            <div className="flex min-h-24 flex-1 flex-col gap-2.5">
+            <div className="flex min-h-24 flex-1 flex-col gap-2.5 pt-3">
               <AnimatePresence mode="popLayout">
                 {cards.map((app) => (
                   <ApplicationCard
@@ -77,11 +77,11 @@ export function KanbanBoard({
               {cards.length === 0 && (
                 <div
                   className={cn(
-                    "grid flex-1 place-items-center rounded-xl border border-dashed border-border/70 py-8 text-center text-xs text-muted-foreground/60 transition-colors",
-                    isOver && "border-primary/40 text-primary",
+                    "label grid flex-1 place-items-center border border-dashed border-foreground/40 py-8 text-center text-muted-foreground/60 transition-colors",
+                    isOver && "border-accent text-accent",
                   )}
                 >
-                  {isOver ? "Drop here" : "Drag cards here"}
+                  {isOver ? "Drop here" : "Drag here"}
                 </div>
               )}
             </div>
@@ -96,11 +96,11 @@ function BoardSkeleton() {
   return (
     <div className="grid gap-4 md:grid-cols-3 xl:grid-cols-5">
       {stages.map((s) => (
-        <div key={s.id} className="rounded-2xl border border-border bg-card/20 p-3">
+        <div key={s.id} className="border-2 border-foreground bg-card/40 p-3">
           <Skeleton className="mb-3 h-4 w-20" />
           <div className="space-y-2.5">
             {Array.from({ length: 2 }).map((_, i) => (
-              <Skeleton key={i} className="h-28 rounded-xl" />
+              <Skeleton key={i} className="h-28" />
             ))}
           </div>
         </div>

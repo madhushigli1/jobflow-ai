@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { Sparkles, Loader2, Copy, Check } from "lucide-react";
-import { Button, Input } from "@/shared/ui";
+import { Button, Input, Select } from "@/shared/ui";
 import { cn } from "@/shared/utils/cn";
 import { api } from "@/shared/lib/api-client";
 import { user } from "@/shared/lib/mock-db";
@@ -72,21 +72,17 @@ export function CoverLetterGenerator() {
       {/* controls */}
       <div className="space-y-5">
         <div>
-          <label htmlFor="job" className="label mb-2 block text-muted-foreground">
+          <span id="job-label" className="label mb-2 block text-muted-foreground">
             Target role
-          </label>
-          <select
-            id="job"
+          </span>
+          <Select
+            labelledBy="job-label"
+            className="w-full"
             value={jobId}
-            onChange={(e) => setJobId(e.target.value)}
-            className="h-11 w-full border-2 border-foreground bg-card px-3 text-sm font-medium outline-none focus-visible:shadow-brutal-sm"
-          >
-            {jobs.map((j) => (
-              <option key={j.id} value={j.id}>
-                {j.title} · {j.company.name}
-              </option>
-            ))}
-          </select>
+            onChange={setJobId}
+            placeholder="Choose a role…"
+            options={jobs.map((j) => ({ value: j.id, label: `${j.title} · ${j.company.name}` }))}
+          />
         </div>
 
         <div>

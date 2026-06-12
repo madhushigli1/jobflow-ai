@@ -3,7 +3,7 @@
 import * as React from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Search, SearchX } from "lucide-react";
-import { Container, Skeleton } from "@/shared/ui";
+import { Container, Skeleton, Select } from "@/shared/ui";
 import { cn } from "@/shared/utils/cn";
 import { useJobs } from "../hooks/use-jobs";
 import { defaultJobFilters, type JobFilters, type JobSort } from "../types";
@@ -34,21 +34,19 @@ export function JobsBoard() {
           />
         </div>
         <div className="flex items-center gap-2">
-          <label htmlFor="sort" className="label text-muted-foreground">
+          <span id="sort-label" className="label text-muted-foreground">
             Sort
-          </label>
-          <select
-            id="sort"
+          </span>
+          <Select<JobSort>
+            labelledBy="sort-label"
+            align="end"
             value={filters.sort}
-            onChange={(e) => setFilters((f) => ({ ...f, sort: e.target.value as JobSort }))}
-            className="h-12 border-2 border-foreground bg-card px-3 text-sm font-medium outline-none focus-visible:shadow-brutal-sm"
-          >
-            {(Object.keys(sortLabels) as JobSort[]).map((s) => (
-              <option key={s} value={s}>
-                {sortLabels[s]}
-              </option>
-            ))}
-          </select>
+            onChange={(sort) => setFilters((f) => ({ ...f, sort }))}
+            options={(Object.keys(sortLabels) as JobSort[]).map((s) => ({
+              value: s,
+              label: sortLabels[s],
+            }))}
+          />
         </div>
       </div>
 

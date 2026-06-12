@@ -28,7 +28,6 @@ export function CoverLetterGenerator() {
     });
   }, []);
 
-  // Typewriter reveal of the generated letter.
   React.useEffect(() => {
     if (!output) return;
     setTyped("");
@@ -71,19 +70,19 @@ export function CoverLetterGenerator() {
   return (
     <div className="grid gap-6 lg:grid-cols-[340px_1fr]">
       {/* controls */}
-      <div className="space-y-4">
+      <div className="space-y-5">
         <div>
-          <label htmlFor="job" className="mb-1.5 block text-sm font-medium">
+          <label htmlFor="job" className="label mb-2 block text-muted-foreground">
             Target role
           </label>
           <select
             id="job"
             value={jobId}
             onChange={(e) => setJobId(e.target.value)}
-            className="h-11 w-full rounded-xl border border-input bg-background-elevated/60 px-3 text-sm outline-none focus-visible:border-primary/60"
+            className="h-11 w-full border-2 border-foreground bg-card px-3 text-sm font-medium outline-none focus-visible:shadow-brutal-sm"
           >
             {jobs.map((j) => (
-              <option key={j.id} value={j.id} className="bg-background">
+              <option key={j.id} value={j.id}>
                 {j.title} · {j.company.name}
               </option>
             ))}
@@ -91,18 +90,17 @@ export function CoverLetterGenerator() {
         </div>
 
         <div>
-          <span className="mb-1.5 block text-sm font-medium">Tone</span>
-          <div className="flex gap-2">
-            {tones.map((t) => (
+          <span className="label mb-2 block text-muted-foreground">Tone</span>
+          <div className="flex">
+            {tones.map((t, i) => (
               <button
                 key={t}
                 onClick={() => setTone(t)}
                 aria-pressed={tone === t}
                 className={cn(
-                  "flex-1 rounded-xl border px-3 py-2 text-sm transition-all",
-                  tone === t
-                    ? "border-primary/50 bg-primary/15 text-primary"
-                    : "border-border text-muted-foreground hover:text-foreground",
+                  "flex-1 border-2 border-foreground py-2 text-xs font-semibold uppercase tracking-wide transition-colors",
+                  i > 0 && "border-l-0",
+                  tone === t ? "bg-foreground text-background" : "bg-card text-muted-foreground hover:bg-muted",
                 )}
               >
                 {t}
@@ -112,8 +110,8 @@ export function CoverLetterGenerator() {
         </div>
 
         <div>
-          <label htmlFor="highlight" className="mb-1.5 block text-sm font-medium">
-            Something to emphasize <span className="text-muted-foreground">(optional)</span>
+          <label htmlFor="highlight" className="label mb-2 block text-muted-foreground">
+            Emphasize (optional)
           </label>
           <Input
             id="highlight"
@@ -123,32 +121,32 @@ export function CoverLetterGenerator() {
           />
         </div>
 
-        <Button onClick={generate} disabled={!jobId || generating} className="w-full">
+        <Button onClick={generate} variant="accent" disabled={!jobId || generating} className="w-full">
           {generating ? <Loader2 className="animate-spin" /> : <Sparkles />}
-          {generating ? "Writing…" : output ? "Regenerate" : "Generate cover letter"}
+          {generating ? "Writing…" : output ? "Regenerate" : "Generate"}
         </Button>
       </div>
 
       {/* output */}
-      <div className="relative min-h-[24rem] rounded-2xl border border-border bg-card/40 p-6">
+      <div className="relative min-h-[24rem] border-2 border-foreground bg-card p-6">
         {output && !generating && (
           <button
             onClick={copy}
-            className="absolute right-4 top-4 inline-flex items-center gap-1.5 rounded-lg border border-border bg-background-elevated px-2.5 py-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground"
+            className="label absolute right-4 top-4 inline-flex items-center gap-1.5 border-2 border-foreground bg-background px-2.5 py-1.5 text-foreground transition-colors hover:bg-foreground hover:text-background"
           >
-            {copied ? <Check className="size-3.5 text-success" /> : <Copy className="size-3.5" />}
+            {copied ? <Check className="size-3.5" /> : <Copy className="size-3.5" />}
             {copied ? "Copied" : "Copy"}
           </button>
         )}
         {typed ? (
-          <pre className="whitespace-pre-wrap font-sans text-sm leading-relaxed text-foreground/90">
+          <pre className="whitespace-pre-wrap font-serif text-base leading-relaxed text-foreground">
             {typed}
-            {generating && <span className="ml-0.5 inline-block h-4 w-1.5 animate-pulse bg-primary align-middle" />}
+            {generating && <span className="ml-0.5 inline-block h-4 w-1.5 animate-pulse bg-accent align-middle" />}
           </pre>
         ) : (
           <div className="grid h-80 place-items-center text-center">
             <div className="px-6 text-sm text-muted-foreground">
-              <Sparkles className="mx-auto size-6 text-primary/60" />
+              <Sparkles className="mx-auto size-6 text-accent" />
               <p className="mt-3">Pick a role and tone — your tailored letter writes itself.</p>
             </div>
           </div>

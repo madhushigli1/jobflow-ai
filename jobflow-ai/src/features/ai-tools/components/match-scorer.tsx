@@ -30,10 +30,10 @@ export function MatchScorer() {
     <div className="grid gap-6 lg:grid-cols-2">
       <div>
         <div className="mb-2 flex items-center justify-between">
-          <label htmlFor="jd" className="text-sm font-medium">
+          <label htmlFor="jd" className="label text-muted-foreground">
             Paste a job description
           </label>
-          <button onClick={() => setText(SAMPLE)} className="text-xs text-primary hover:underline">
+          <button onClick={() => setText(SAMPLE)} className="label text-accent hover:underline">
             Use sample
           </button>
         </div>
@@ -44,16 +44,16 @@ export function MatchScorer() {
           placeholder="Paste the full job description to score your fit…"
           className="min-h-64"
         />
-        <Button onClick={score} disabled={!text.trim() || loading} className="mt-3 w-full">
+        <Button onClick={score} variant="accent" disabled={!text.trim() || loading} className="mt-3 w-full">
           {loading ? <Loader2 className="animate-spin" /> : <Target />}
           {loading ? "Scoring…" : "Score my fit"}
         </Button>
       </div>
 
-      <div className="grid min-h-64 place-items-center rounded-2xl border border-border bg-card/40 p-6">
+      <div className="grid min-h-64 place-items-center border-2 border-foreground bg-card p-6">
         {loading ? (
           <div className="text-center text-sm text-muted-foreground">
-            <Loader2 className="mx-auto size-6 animate-spin text-primary" />
+            <Loader2 className="mx-auto size-6 animate-spin text-accent" />
             <p className="mt-3">Comparing against your profile…</p>
           </div>
         ) : result ? (
@@ -66,34 +66,34 @@ export function MatchScorer() {
               <ScoreRing value={result.score} size={120} stroke={9} showLabel={false} />
               <div className="absolute inset-0 grid place-items-center">
                 <div>
-                  <span className="text-4xl font-semibold">{result.score}</span>
+                  <span className="font-serif text-5xl font-light">{result.score}</span>
                   <span className="text-sm text-muted-foreground">%</span>
                 </div>
               </div>
             </div>
-            <p className="mt-4 text-sm text-muted-foreground">{result.summary}</p>
+            <p className="mx-auto mt-4 max-w-xs text-sm text-muted-foreground">{result.summary}</p>
 
-            <div className="mt-5 grid grid-cols-2 gap-3 text-left">
+            <div className="mt-6 grid grid-cols-2 gap-4 border-t border-foreground pt-5 text-left">
               <div>
-                <p className="mb-2 flex items-center gap-1.5 text-xs font-medium text-success">
-                  <Check className="size-3.5" /> Matched ({result.matched.length})
+                <p className="label mb-2 flex items-center gap-1.5 text-accent">
+                  <Check className="size-3.5" /> Matched · {result.matched.length}
                 </p>
                 <div className="flex flex-wrap gap-1.5">
                   {result.matched.map((s) => (
-                    <span key={s} className="rounded-full border border-success/30 bg-success/10 px-2 py-0.5 text-[11px] text-success">
+                    <span key={s} className="border border-foreground bg-accent px-2 py-0.5 font-mono text-[0.6rem] uppercase text-accent-foreground">
                       {s}
                     </span>
                   ))}
                 </div>
               </div>
               <div>
-                <p className="mb-2 flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
-                  <X className="size-3.5" /> Gaps ({result.missing.length})
+                <p className="label mb-2 flex items-center gap-1.5 text-muted-foreground">
+                  <X className="size-3.5" /> Gaps · {result.missing.length}
                 </p>
                 <div className="flex flex-wrap gap-1.5">
                   {result.missing.length ? (
                     result.missing.map((s) => (
-                      <span key={s} className="rounded-full border border-border px-2 py-0.5 text-[11px] text-muted-foreground">
+                      <span key={s} className="border border-foreground px-2 py-0.5 font-mono text-[0.6rem] uppercase text-muted-foreground">
                         {s}
                       </span>
                     ))
@@ -106,7 +106,7 @@ export function MatchScorer() {
           </motion.div>
         ) : (
           <div className="text-center text-sm text-muted-foreground">
-            <Target className="mx-auto size-6 text-primary/60" />
+            <Target className="mx-auto size-6 text-accent" />
             <p className="mt-3">Paste a job description to see your match score.</p>
           </div>
         )}

@@ -10,6 +10,7 @@ export {
   CardFooter,
 } from "./card";
 export { Input, Textarea, inputBase } from "./input";
+export { Select, type SelectOption } from "./select";
 export { Container, Section, Eyebrow } from "./container";
 export { Reveal, StaggerGroup, staggerItem } from "./reveal";
 export { Avatar } from "./avatar";

@@ -20,7 +20,7 @@ export function AiTools() {
 
   return (
     <div>
-      <div className="grid gap-3 sm:grid-cols-3">
+      <div className="grid gap-px border-2 border-foreground bg-foreground sm:grid-cols-3">
         {tabs.map((t) => {
           const selected = active === t.id;
           return (
@@ -28,36 +28,28 @@ export function AiTools() {
               key={t.id}
               onClick={() => setActive(t.id)}
               className={cn(
-                "group relative overflow-hidden rounded-2xl border p-4 text-left transition-all",
-                selected
-                  ? "border-primary/50 bg-primary/5"
-                  : "border-border bg-card/30 hover:border-primary/30",
+                "group relative p-5 text-left transition-colors",
+                selected ? "bg-accent text-accent-foreground" : "bg-card hover:bg-muted",
               )}
             >
-              {selected && (
-                <motion.div
-                  layoutId="ai-tab-glow"
-                  className="pointer-events-none absolute -right-8 -top-8 size-24 rounded-full bg-primary/20 blur-2xl"
-                />
-              )}
               <span
                 className={cn(
-                  "inline-flex size-10 items-center justify-center rounded-xl border transition-colors",
-                  selected
-                    ? "border-primary/40 bg-gradient-to-br from-primary to-accent text-white"
-                    : "border-border bg-background-elevated text-primary",
+                  "inline-flex size-10 items-center justify-center border-2 transition-colors",
+                  selected ? "border-accent-foreground" : "border-foreground bg-background",
                 )}
               >
                 <t.icon className="size-5" />
               </span>
-              <p className="mt-3 font-semibold">{t.label}</p>
-              <p className="text-sm text-muted-foreground">{t.desc}</p>
+              <p className="mt-3 font-serif text-xl">{t.label}</p>
+              <p className={cn("label mt-1", selected ? "text-accent-foreground/80" : "text-muted-foreground")}>
+                {t.desc}
+              </p>
             </button>
           );
         })}
       </div>
 
-      <div className="mt-6 rounded-2xl border border-border bg-card/20 p-5 sm:p-6">
+      <div className="mt-6 border-2 border-foreground bg-card p-5 sm:p-6">
         <AnimatePresence mode="wait">
           <motion.div
             key={active}

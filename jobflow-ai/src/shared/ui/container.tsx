@@ -17,15 +17,12 @@ export function Section({
   return <section className={cn("py-20 sm:py-28", className)} {...props} />;
 }
 
-/** Small eyebrow label used above section headings. */
-export function Eyebrow({ className, ...props }: React.HTMLAttributes<HTMLSpanElement>) {
+/** Editorial eyebrow label — mono, uppercase, with a red tick. */
+export function Eyebrow({ className, children, ...props }: React.HTMLAttributes<HTMLSpanElement>) {
   return (
-    <span
-      className={cn(
-        "inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-xs font-medium text-primary",
-        className,
-      )}
-      {...props}
-    />
+    <span className={cn("label inline-flex items-center gap-2 text-foreground", className)} {...props}>
+      <span className="inline-block size-2 bg-accent" aria-hidden />
+      {children}
+    </span>
   );
 }

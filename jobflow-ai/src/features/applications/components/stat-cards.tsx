@@ -11,61 +11,33 @@ export function StatCards({ applications }: { applications: Application[] }) {
   const offers = count((a) => a.stage === "offer");
 
   const stats = [
-    {
-      label: "Active applications",
-      value: active,
-      icon: Send,
-      tone: "text-accent",
-      ring: "from-accent/20",
-      hint: "in flight",
-    },
-    {
-      label: "Interviews",
-      value: interviews,
-      icon: CalendarCheck,
-      tone: "text-primary",
-      ring: "from-primary/20",
-      hint: "scheduled or done",
-    },
-    {
-      label: "Offers",
-      value: offers,
-      icon: Trophy,
-      tone: "text-success",
-      ring: "from-success/20",
-      hint: "🎉 let's go",
-    },
-    {
-      label: "Total tracked",
-      value: applications.length,
-      icon: Flame,
-      tone: "text-warning",
-      ring: "from-warning/20",
-      hint: "this search",
-    },
+    { label: "Active applications", value: active, icon: Send, hint: "in flight" },
+    { label: "Interviews", value: interviews, icon: CalendarCheck, hint: "scheduled or done" },
+    { label: "Offers", value: offers, icon: Trophy, hint: "let's go", accent: true },
+    { label: "Total tracked", value: applications.length, icon: Flame, hint: "this search" },
   ];
 
   return (
-    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+    <div className="grid gap-px border-2 border-foreground bg-foreground sm:grid-cols-2 lg:grid-cols-4">
       {stats.map((s) => (
-        <div
-          key={s.label}
-          className="relative overflow-hidden rounded-2xl border border-border bg-card/40 p-5"
-        >
-          <div
-            className={cn(
-              "pointer-events-none absolute -right-6 -top-6 size-24 rounded-full bg-gradient-to-br to-transparent blur-2xl",
-              s.ring,
-            )}
-          />
+        <div key={s.label} className={cn("bg-card p-5", s.accent && "bg-accent text-accent-foreground")}>
           <div className="flex items-center justify-between">
-            <span className={cn("inline-flex size-9 items-center justify-center rounded-lg border border-border bg-background-elevated", s.tone)}>
+            <span
+              className={cn(
+                "grid size-9 place-items-center border-2",
+                s.accent ? "border-accent-foreground" : "border-foreground bg-background",
+              )}
+            >
               <s.icon className="size-4" />
             </span>
+            <span className={cn("label", s.accent ? "text-accent-foreground/70" : "text-muted-foreground")}>
+              {s.hint}
+            </span>
           </div>
-          <p className="mt-4 text-3xl font-semibold tracking-tight">{s.value}</p>
-          <p className="text-sm text-muted-foreground">{s.label}</p>
-          <p className="mt-1 text-xs text-muted-foreground/60">{s.hint}</p>
+          <p className="mt-4 font-serif text-5xl font-light tracking-tight">{s.value}</p>
+          <p className={cn("label mt-1", s.accent ? "text-accent-foreground/80" : "text-muted-foreground")}>
+            {s.label}
+          </p>
         </div>
       ))}
     </div>

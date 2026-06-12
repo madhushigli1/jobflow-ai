@@ -10,14 +10,14 @@ export function ApplyButton({ className }: { className?: string }) {
   const [saved, setSaved] = React.useState(false);
 
   return (
-    <div className={cn("space-y-2", className)}>
+    <div className={cn("space-y-2.5", className)}>
       <button
         onClick={() => setApplied((v) => !v)}
         className={cn(
-          "relative flex h-12 w-full items-center justify-center gap-2 overflow-hidden rounded-full font-medium transition-all active:scale-[0.98]",
+          "relative flex h-12 w-full items-center justify-center gap-2 overflow-hidden border-2 border-foreground text-xs font-semibold uppercase tracking-[0.06em] transition-all duration-150 hover:translate-x-[2px] hover:translate-y-[2px] active:translate-x-[4px] active:translate-y-[4px]",
           applied
-            ? "bg-success text-success-foreground"
-            : "bg-gradient-to-r from-primary to-accent text-primary-foreground shadow-lg shadow-primary/25 hover:brightness-110",
+            ? "bg-foreground text-background shadow-[4px_4px_0_0_hsl(var(--accent))] hover:shadow-[2px_2px_0_0_hsl(var(--accent))] active:shadow-none"
+            : "bg-accent text-accent-foreground shadow-[4px_4px_0_0_hsl(var(--foreground))] hover:shadow-[2px_2px_0_0_hsl(var(--foreground))] active:shadow-none",
         )}
       >
         <AnimatePresence mode="wait" initial={false}>
@@ -48,13 +48,11 @@ export function ApplyButton({ className }: { className?: string }) {
       <button
         onClick={() => setSaved((v) => !v)}
         className={cn(
-          "flex h-11 w-full items-center justify-center gap-2 rounded-full border text-sm font-medium transition-colors",
-          saved
-            ? "border-primary/50 bg-primary/10 text-primary"
-            : "border-border text-muted-foreground hover:border-primary/40 hover:text-foreground",
+          "flex h-11 w-full items-center justify-center gap-2 border-2 border-foreground text-xs font-semibold uppercase tracking-[0.06em] transition-colors",
+          saved ? "bg-foreground text-background" : "bg-card text-foreground hover:bg-muted",
         )}
       >
-        <Bookmark className={cn("size-4", saved && "fill-primary")} />
+        <Bookmark className={cn("size-4", saved && "fill-background")} />
         {saved ? "Saved to board" : "Save for later"}
       </button>
     </div>

@@ -25,25 +25,25 @@ const steps = [
 
 export function HowItWorks() {
   return (
-    <Section id="how-it-works" className="relative">
+    <Section id="how-it-works" className="border-b-2 border-foreground">
       <Container>
-        <Reveal className="mx-auto max-w-2xl text-center">
+        <Reveal className="max-w-2xl">
           <Eyebrow>How it works</Eyebrow>
-          <h2 className="mt-5 text-4xl font-semibold tracking-tight sm:text-5xl">
+          <h2 className="mt-5 font-serif text-5xl font-light tracking-tight sm:text-6xl">
             From sign-up to signed offer
           </h2>
-          <p className="mt-4 text-lg text-muted-foreground">
-            Four steps. No spreadsheets, no chaos.
-          </p>
         </Reveal>
 
-        <div className="mt-14 grid gap-px overflow-hidden rounded-2xl border border-border bg-border sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-12 grid gap-px border-2 border-foreground bg-foreground sm:grid-cols-2 lg:grid-cols-4">
           {steps.map((s, i) => (
             <Reveal key={s.n} delay={i * 0.08}>
-              <div className="group h-full bg-card/60 p-7 transition-colors hover:bg-card">
-                <span className="text-3xl font-semibold text-gradient-brand">{s.n}</span>
-                <h3 className="mt-5 text-lg font-semibold">{s.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{s.desc}</p>
+              <div className="group flex h-full flex-col bg-card p-7 transition-colors hover:bg-accent hover:text-accent-foreground">
+                <span className="font-serif text-5xl">{s.n}</span>
+                <span className="mt-4 h-0.5 w-10 bg-accent transition-colors group-hover:bg-accent-foreground" />
+                <h3 className="mt-5 font-serif text-2xl">{s.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground transition-colors group-hover:text-accent-foreground/80">
+                  {s.desc}
+                </p>
               </div>
             </Reveal>
           ))}

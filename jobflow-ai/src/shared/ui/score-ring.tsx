@@ -21,12 +21,13 @@ export function ScoreRing({
   const circ = 2 * Math.PI * r;
   const pct = Math.max(0, Math.min(100, value));
   const offset = circ - (pct / 100) * circ;
-  const color = pct >= 85 ? "hsl(152 60% 48%)" : pct >= 70 ? "hsl(258 90% 66%)" : "hsl(38 92% 58%)";
+  // Editorial: ink track, red arc; only standout scores fill red, else ink.
+  const color = pct >= 85 ? "hsl(var(--accent))" : "hsl(var(--foreground))";
 
   return (
     <div className={cn("relative inline-grid place-items-center", className)} style={{ width: size, height: size }}>
       <svg width={size} height={size} className="-rotate-90">
-        <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="hsl(230 20% 18%)" strokeWidth={stroke} />
+        <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="hsl(var(--foreground) / 0.15)" strokeWidth={stroke} />
         <motion.circle
           cx={size / 2}
           cy={size / 2}
@@ -34,18 +35,17 @@ export function ScoreRing({
           fill="none"
           stroke={color}
           strokeWidth={stroke}
-          strokeLinecap="round"
+          strokeLinecap="butt"
           strokeDasharray={circ}
           initial={{ strokeDashoffset: circ }}
           whileInView={{ strokeDashoffset: offset }}
           viewport={{ once: true }}
           transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-          style={{ filter: `drop-shadow(0 0 6px ${color}66)` }}
         />
       </svg>
       {showLabel && (
         <div className="absolute inset-0 grid place-items-center">
-          <span className="text-sm font-semibold" style={{ color }}>
+          <span className="font-mono text-xs font-semibold" style={{ color }}>
             {Math.round(pct)}
           </span>
         </div>

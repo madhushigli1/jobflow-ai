@@ -11,12 +11,13 @@ export const metadata: Metadata = {
 export default function JobsPage() {
   return (
     <>
-      <section className="border-b border-border/60 pb-2 pt-10">
+      <section className="border-b-2 border-foreground pb-6 pt-12">
         <Container>
-          <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
-            Find your <span className="text-gradient-brand">match</span>
+          <span className="label text-muted-foreground">The Index — 12 open roles</span>
+          <h1 className="mt-3 font-serif text-5xl font-light tracking-tight sm:text-6xl">
+            Find your <span className="italic text-accent">match</span>
           </h1>
-          <p className="mt-2 max-w-xl text-muted-foreground">
+          <p className="mt-3 max-w-xl text-muted-foreground">
             Every role is scored against your profile. Filter, sort, and apply to the
             ones you&apos;re most likely to land.
           </p>

@@ -22,7 +22,7 @@ export function Footer() {
   ];
 
   return (
-    <footer className="relative mt-20 border-t border-border/80">
+    <footer className="relative mt-20 border-t-2 border-foreground bg-background">
       <Container className="py-16">
         <div className="grid gap-12 lg:grid-cols-[1.4fr_2fr]">
           <div className="max-w-sm">
@@ -38,7 +38,7 @@ export function Footer() {
                   target="_blank"
                   rel="noreferrer"
                   aria-label={label}
-                  className="grid size-10 place-items-center rounded-xl border border-border text-muted-foreground transition-colors hover:border-primary/40 hover:text-foreground"
+                  className="grid size-10 place-items-center border-2 border-foreground bg-card text-foreground transition-colors hover:bg-foreground hover:text-background"
                 >
                   <svg viewBox="0 0 24 24" className="size-4" fill="currentColor" aria-hidden>
                     {icon}
@@ -51,7 +51,7 @@ export function Footer() {
           <div className="grid grid-cols-2 gap-8 sm:grid-cols-3">
             {footerNav.map((group) => (
               <div key={group.title}>
-                <h4 className="text-sm font-semibold text-foreground">{group.title}</h4>
+                <h4 className="label text-foreground">{group.title}</h4>
                 <ul className="mt-4 space-y-3">
                   {group.items.map((item) => (
                     <li key={`${group.title}-${item.label}`}>
@@ -69,7 +69,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-border/80 pt-8 text-sm text-muted-foreground sm:flex-row">
+        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-foreground pt-8 text-sm text-muted-foreground sm:flex-row">
           <p>
             © {new Date().getFullYear()} {siteConfig.name}. Crafted for a top-notch job search.
           </p>

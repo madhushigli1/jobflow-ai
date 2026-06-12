@@ -1,36 +1,68 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# JobFlow AI
 
-## Getting Started
+> The intelligent job platform — find AI-matched roles, track every application on a drag-and-drop board, and generate tailored cover letters. A polished, end-to-end frontend showcase.
 
-First, run the development server:
+Built with **Next.js 16 (App Router)**, **React 19**, **TypeScript**, and **Tailwind CSS v4**, in a modern dark SaaS aesthetic (gradients, glassmorphism, motion).
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+## ✨ What's inside
+
+| Route | Description |
+| --- | --- |
+| `/` | Marketing landing — animated hero with product preview, feature grid, animated stat counters, how-it-works, testimonials, CTA |
+| `/jobs` | Job board — live debounced search, multi-facet filters, sort, animated grid, AI match scores, loading skeletons & empty state |
+| `/jobs/[id]` | Job detail — full role breakdown, "why you match" AI panel, one-click apply (optimistic), similar roles. Statically prerendered via `generateStaticParams` |
+| `/dashboard` | Application tracker — **drag-and-drop Kanban** across 5 stages with live stat cards |
+| `/dashboard/analytics` | Analytics — **custom dependency-free SVG charts** (animated area, donut, funnel) with hover readouts |
+| `/ai-tools` | AI workspace — resume analyzer (scored), cover-letter generator (typewriter), and match scorer |
+
+## 🏗️ Architecture
+
+Feature-based structure with strict boundaries (`features/` → `shared/`, never feature → feature):
+
+```
+src/
+├── app/                  # Routes only (App Router)
+│   ├── jobs/[id]/        # async params, generateMetadata, generateStaticParams
+│   ├── dashboard/        # nested layout + analytics segment
+│   └── ai-tools/
+├── features/             # Business domains, each with a public index.ts barrel
+│   ├── marketing/        # landing-page sections
+│   ├── jobs/             # board, card, filters, detail, useJobs hook
+│   ├── applications/     # Kanban tracker, useApplications hook
+│   ├── analytics/        # SVG chart primitives + view
+│   └── ai-tools/         # resume / cover-letter / match tools + simulate lib
+├── shared/
+│   ├── ui/               # CVA-based primitives (Button, Badge, Card, ScoreRing…)
+│   ├── layout/           # Navbar, Footer, BackgroundFX, SubNav
+│   ├── lib/              # api-client (mock) + mock-db
+│   ├── hooks/            # useDebouncedValue
+│   ├── types/            # cross-cutting domain entities
+│   └── utils/            # cn(), formatters
+└── config/               # site + navigation config
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**Key decisions**
+- **Centralized data layer** — components never fetch directly. Feature hooks call a single mock `api` client (`shared/lib/api-client.ts`) with simulated latency, typed responses, and an `ApiResponse<T>` envelope. Swapping in a real backend is a one-file change.
+- **Design tokens as CSS variables** — semantic colors (each paired with a `-foreground`) defined as HSL channels on `:root`, consumed by Tailwind v4 via `@theme inline`. Re-theming = swapping variable values.
+- **CVA variants** for type-safe component APIs that extend native HTML attributes.
+- **Custom SVG charts** — no charting dependency; full control over the dark aesthetic and animations.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🚀 Getting started
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm install
+npm run dev      # http://localhost:3000
+npm run build    # production build
+```
 
-## Learn More
+## 🧰 Tech stack
 
-To learn more about Next.js, take a look at the following resources:
+- Next.js 16 · React 19 · TypeScript 5
+- Tailwind CSS v4 (`@theme inline` tokens, zero config file)
+- `motion` (Framer Motion) for animation
+- `class-variance-authority` + `tailwind-merge` for the component system
+- `lucide-react` icons
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+> Data is mocked for demo purposes — see `src/shared/lib/mock-db.ts`.

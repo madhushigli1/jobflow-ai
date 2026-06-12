@@ -26,7 +26,7 @@ export function JobDetail({ job, related }: { job: Job; related: Job[] }) {
     <Container className="py-10">
       <Link
         href="/jobs"
-        className="inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
+        className="label inline-flex items-center gap-1.5 text-muted-foreground transition-colors hover:text-accent"
       >
         <ArrowLeft className="size-4" /> Back to jobs
       </Link>
@@ -34,22 +34,17 @@ export function JobDetail({ job, related }: { job: Job; related: Job[] }) {
       <div className="mt-6 grid gap-8 lg:grid-cols-[1fr_340px]">
         {/* main */}
         <div>
-          <header className="glass rounded-2xl p-6">
+          <header className="border-2 border-foreground bg-card p-6">
             <div className="flex items-start gap-4">
-              <span
-                className={cn(
-                  "grid size-16 shrink-0 place-items-center rounded-2xl bg-gradient-to-br text-3xl font-bold text-white ring-1 ring-white/10",
-                  job.company.brand,
-                )}
-              >
+              <span className="grid size-16 shrink-0 place-items-center border-2 border-foreground bg-foreground font-serif text-3xl text-background">
                 {job.company.logo}
               </span>
               <div className="min-w-0 flex-1">
                 <div className="flex flex-wrap items-center gap-2">
-                  <h1 className="text-2xl font-semibold tracking-tight">{job.title}</h1>
-                  {job.featured && <Badge variant="primary" size="sm">Featured</Badge>}
+                  <h1 className="font-serif text-3xl font-light leading-tight tracking-tight">{job.title}</h1>
+                  {job.featured && <Badge variant="accent" size="sm">Featured</Badge>}
                 </div>
-                <p className="mt-1 text-muted-foreground">
+                <p className="label mt-2 text-muted-foreground">
                   {job.company.name} · {job.company.industry}
                 </p>
               </div>
@@ -86,13 +81,13 @@ export function JobDetail({ job, related }: { job: Job; related: Job[] }) {
 
         {/* sidebar */}
         <aside className="space-y-4 lg:sticky lg:top-24 lg:h-fit">
-          <div className="glass rounded-2xl p-6">
+          <div className="border-2 border-foreground bg-card p-6 shadow-brutal">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-xs text-muted-foreground">Estimated salary</p>
-                <p className="mt-0.5 text-xl font-semibold">
+                <p className="label text-muted-foreground">Estimated salary</p>
+                <p className="mt-1 font-serif text-2xl">
                   {formatSalary(job.salaryMin, job.salaryMax)}
-                  <span className="ml-1 text-xs font-normal text-muted-foreground">
+                  <span className="ml-1 font-sans text-xs font-normal text-muted-foreground">
                     {job.type === "Internship" ? "/mo" : "/yr"}
                   </span>
                 </p>
@@ -103,21 +98,21 @@ export function JobDetail({ job, related }: { job: Job; related: Job[] }) {
           </div>
 
           {/* AI match breakdown */}
-          <div className="border-gradient rounded-2xl p-6">
-            <div className="flex items-center gap-2 text-sm font-semibold">
-              <Sparkles className="size-4 text-primary" /> Why you match
+          <div className="border-2 border-foreground bg-card p-6">
+            <div className="label flex items-center gap-2 text-foreground">
+              <Sparkles className="size-4 text-accent" /> Why you match
             </div>
-            <p className="mt-2 text-sm text-muted-foreground">
+            <p className="mt-3 text-sm text-muted-foreground">
               Your profile aligns with{" "}
-              <span className="font-medium text-foreground">{job.matchScore}%</span> of this role.
+              <span className="font-semibold text-accent">{job.matchScore}%</span> of this role.
             </p>
-            <div className="mt-4 space-y-2">
+            <div className="mt-4 space-y-2 border-t border-foreground pt-4">
               {matchedSkills.length > 0 ? (
                 matchedSkills.map((s) => (
                   <div key={s} className="flex items-center gap-2 text-sm">
-                    <Check className="size-4 text-success" />
-                    <span>{s}</span>
-                    <span className="ml-auto text-xs text-muted-foreground">in your profile</span>
+                    <Check className="size-4 text-accent" />
+                    <span className="font-medium">{s}</span>
+                    <span className="label ml-auto text-muted-foreground">in profile</span>
                   </div>
                 ))
               ) : (
@@ -128,11 +123,11 @@ export function JobDetail({ job, related }: { job: Job; related: Job[] }) {
             </div>
           </div>
 
-          <div className="glass rounded-2xl p-6">
-            <div className="flex items-center gap-2 text-sm font-semibold">
-              <Building2 className="size-4 text-primary" /> About {job.company.name}
+          <div className="border-2 border-foreground bg-card p-6">
+            <div className="label flex items-center gap-2 text-foreground">
+              <Building2 className="size-4 text-accent" /> About {job.company.name}
             </div>
-            <dl className="mt-4 space-y-2 text-sm">
+            <dl className="mt-4 space-y-2 border-t border-foreground pt-4 text-sm">
               <Row label="Industry" value={job.company.industry} />
               <Row label="Company size" value={job.company.size} />
               <Row label="Work mode" value={job.workMode} />
@@ -142,8 +137,8 @@ export function JobDetail({ job, related }: { job: Job; related: Job[] }) {
       </div>
 
       {related.length > 0 && (
-        <div className="mt-14">
-          <h2 className="text-xl font-semibold tracking-tight">Similar roles</h2>
+        <div className="mt-14 border-t-2 border-foreground pt-10">
+          <h2 className="font-serif text-3xl font-light tracking-tight">Similar roles</h2>
           <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {related.map((r) => (
               <JobCard key={r.id} job={r} />
@@ -166,8 +161,8 @@ function Meta({ icon: Icon, text }: { icon: typeof MapPin; text: string }) {
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <section className="mt-8">
-      <h2 className="text-lg font-semibold tracking-tight">{title}</h2>
-      <div className="mt-3">{children}</div>
+      <h2 className="border-b border-foreground pb-2 font-serif text-2xl">{title}</h2>
+      <div className="mt-4">{children}</div>
     </section>
   );
 }
@@ -177,7 +172,7 @@ function List({ items }: { items: string[] }) {
     <ul className="space-y-2.5">
       {items.map((item) => (
         <li key={item} className="flex gap-3 text-muted-foreground">
-          <Check className="mt-0.5 size-4 shrink-0 text-primary" />
+          <Check className="mt-0.5 size-4 shrink-0 text-accent" />
           <span className="leading-relaxed">{item}</span>
         </li>
       ))}

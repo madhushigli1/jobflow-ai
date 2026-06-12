@@ -14,9 +14,9 @@ Shipped a TypeScript design system adopted by 5 teams.
 Built accessible, high-performance interfaces with Tailwind CSS.`;
 
 const severityMeta = {
-  high: { icon: AlertTriangle, cls: "text-destructive", badge: "destructive" as const },
-  medium: { icon: Info, cls: "text-warning", badge: "warning" as const },
-  low: { icon: CheckCircle2, cls: "text-success", badge: "success" as const },
+  high: { icon: AlertTriangle, cls: "text-accent", badge: "accent" as const },
+  medium: { icon: Info, cls: "text-foreground", badge: "default" as const },
+  low: { icon: CheckCircle2, cls: "text-muted-foreground", badge: "outline" as const },
 };
 
 export function ResumeAnalyzer() {
@@ -42,7 +42,7 @@ export function ResumeAnalyzer() {
           </label>
           <button
             onClick={() => setText(SAMPLE)}
-            className="text-xs text-primary hover:underline"
+            className="text-xs text-accent hover:underline"
           >
             Use sample
           </button>
@@ -68,10 +68,10 @@ export function ResumeAnalyzer() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="grid h-full place-items-center rounded-2xl border border-dashed border-border"
+              className="grid h-full place-items-center border-2 border-dashed border-foreground"
             >
               <div className="text-center text-sm text-muted-foreground">
-                <Loader2 className="mx-auto size-6 animate-spin text-primary" />
+                <Loader2 className="mx-auto size-6 animate-spin text-accent" />
                 <p className="mt-3">Scanning for impact, clarity &amp; keywords…</p>
               </div>
             </motion.div>
@@ -80,15 +80,15 @@ export function ResumeAnalyzer() {
               key="result"
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="space-y-5 rounded-2xl border border-border bg-card/40 p-6"
+              className="space-y-5 border-2 border-foreground bg-card p-6"
             >
               <div className="flex items-center gap-4">
                 <ScoreRing value={result.score} size={72} stroke={6} />
                 <div>
-                  <p className="text-sm text-muted-foreground">Resume score</p>
-                  <p className="text-2xl font-semibold">
+                  <p className="label text-muted-foreground">Resume score</p>
+                  <p className="font-serif text-4xl font-light">
                     {result.score}
-                    <span className="text-base text-muted-foreground">/100</span>
+                    <span className="font-sans text-base text-muted-foreground">/100</span>
                   </p>
                 </div>
               </div>
@@ -136,10 +136,10 @@ export function ResumeAnalyzer() {
               key="empty"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="grid h-full place-items-center rounded-2xl border border-dashed border-border text-center"
+              className="grid h-full place-items-center border-2 border-dashed border-foreground text-center"
             >
               <div className="px-6 text-sm text-muted-foreground">
-                <Wand2 className="mx-auto size-6 text-primary/60" />
+                <Wand2 className="mx-auto size-6 text-accent/60" />
                 <p className="mt-3">Your AI resume report will appear here.</p>
               </div>
             </motion.div>

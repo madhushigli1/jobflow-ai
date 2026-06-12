@@ -10,36 +10,31 @@ export function JobCard({ job }: { job: Job }) {
     <Link
       href={`/jobs/${job.id}`}
       className={cn(
-        "group relative flex flex-col rounded-2xl border border-border bg-card/40 p-5 transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/40 hover:glow-soft",
-        job.featured && "border-primary/30",
+        "group relative flex flex-col border border-foreground bg-card p-5 transition-all duration-150 hover:-translate-x-1 hover:-translate-y-1 hover:shadow-brutal",
+        job.featured && "border-2",
       )}
     >
       {job.featured && (
-        <span className="absolute -top-2 left-5 rounded-full bg-gradient-to-r from-primary to-accent px-2.5 py-0.5 text-[11px] font-medium text-white shadow-lg shadow-primary/30">
+        <span className="absolute -top-px right-4 border-x border-b border-foreground bg-accent px-2 py-0.5 font-mono text-[0.6rem] uppercase tracking-[0.1em] text-accent-foreground">
           Featured
         </span>
       )}
 
       <div className="flex items-start gap-4">
-        <span
-          className={cn(
-            "grid size-12 shrink-0 place-items-center rounded-xl bg-gradient-to-br text-xl font-bold text-white shadow-inner ring-1 ring-white/10",
-            job.company.brand,
-          )}
-        >
+        <span className="grid size-12 shrink-0 place-items-center border-2 border-foreground bg-foreground font-serif text-xl text-background">
           {job.company.logo}
         </span>
 
         <div className="min-w-0 flex-1">
-          <h3 className="truncate font-semibold leading-snug group-hover:text-primary">
+          <h3 className="truncate font-serif text-xl leading-snug group-hover:text-accent">
             {job.title}
           </h3>
-          <p className="mt-0.5 text-sm text-muted-foreground">
+          <p className="label mt-1 text-muted-foreground">
             {job.company.name} · {job.company.industry}
           </p>
         </div>
 
-        <ScoreRing value={job.matchScore} size={48} stroke={4} />
+        <ScoreRing value={job.matchScore} size={46} stroke={4} />
       </div>
 
       <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-sm text-muted-foreground">
@@ -55,26 +50,22 @@ export function JobCard({ job }: { job: Job }) {
       </div>
 
       <div className="mt-4 flex flex-wrap gap-1.5">
-        <Badge variant="primary" size="sm">
-          {job.workMode}
-        </Badge>
+        <Badge variant="primary" size="sm">{job.workMode}</Badge>
         <Badge size="sm">{job.type}</Badge>
         {job.tags.slice(0, 2).map((t) => (
-          <Badge key={t} variant="outline" size="sm">
-            {t}
-          </Badge>
+          <Badge key={t} variant="outline" size="sm">{t}</Badge>
         ))}
       </div>
 
-      <div className="mt-5 flex items-center justify-between border-t border-border/70 pt-4">
-        <span className="font-semibold text-foreground">
+      <div className="mt-5 flex items-center justify-between border-t border-foreground pt-4">
+        <span className="font-serif text-lg">
           {formatSalary(job.salaryMin, job.salaryMax)}
-          <span className="ml-1 text-xs font-normal text-muted-foreground">
+          <span className="ml-1 font-sans text-xs text-muted-foreground">
             {job.type === "Internship" ? "/mo" : "/yr"}
           </span>
         </span>
-        <span className="inline-flex items-center gap-1 text-sm font-medium text-primary opacity-0 transition-opacity group-hover:opacity-100">
-          View role <ArrowUpRight className="size-4" />
+        <span className="label inline-flex items-center gap-1 text-accent opacity-0 transition-opacity group-hover:opacity-100">
+          View <ArrowUpRight className="size-4" />
         </span>
       </div>
     </Link>

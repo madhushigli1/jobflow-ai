@@ -1,46 +1,45 @@
 @import "tailwindcss";
 
 /* ============================================================
-   JobFlow AI — Design Tokens
-   Modern dark SaaS aesthetic (violet → blue → cyan).
-   Tokens are raw HSL channels on :root so theming = swap values.
-   Tailwind v4 consumes them via @theme inline below.
+   JobFlow — Editorial Luxe / Neo-Brutalist design system
+   Warm paper · near-black ink · single vermillion accent.
+   Tokens are raw HSL channels on :root; Tailwind v4 reads them
+   via @theme inline. Sharp corners + hard rules + offset shadows.
    ============================================================ */
 :root {
-  /* Surfaces */
-  --background: 230 35% 5%;
-  --background-elevated: 229 30% 8%;
-  --foreground: 220 30% 96%;
+  /* Surfaces — warm cream paper, white cards */
+  --background: 42 33% 95%;          /* #F7F4ED paper */
+  --background-elevated: 0 0% 100%;  /* white */
+  --foreground: 30 8% 10%;           /* warm near-black ink */
 
-  /* Card / glass */
-  --card: 230 28% 9%;
-  --card-foreground: 220 30% 96%;
+  --card: 0 0% 100%;
+  --card-foreground: 30 8% 10%;
 
-  /* Muted / secondary text + fills */
-  --muted: 230 20% 14%;
-  --muted-foreground: 222 14% 62%;
+  /* Muted fills + secondary ink */
+  --muted: 40 22% 90%;
+  --muted-foreground: 30 6% 38%;
 
-  /* Borders & inputs */
-  --border: 230 20% 18%;
-  --input: 230 20% 16%;
-  --ring: 258 90% 66%;
+  /* Lines & inputs — ink for hard editorial rules */
+  --border: 30 8% 12%;
+  --input: 0 0% 100%;
+  --ring: 4 79% 53%;
 
-  /* Brand */
-  --primary: 258 90% 66%; /* violet */
-  --primary-foreground: 0 0% 100%;
-  --accent: 199 92% 56%; /* cyan-blue */
+  /* Brand — ink is "primary", vermillion is the lone accent */
+  --primary: 30 8% 10%;
+  --primary-foreground: 42 33% 96%;
+  --accent: 4 79% 53%;               /* #E63329 vermillion */
   --accent-foreground: 0 0% 100%;
-  --indigo: 234 89% 64%;
+  --indigo: 30 8% 10%;               /* legacy alias → ink */
 
-  /* Semantic states */
-  --success: 152 60% 48%;
+  /* Semantic states, mapped into the B&W + red world */
+  --success: 4 79% 53%;              /* positive emphasis = red */
   --success-foreground: 0 0% 100%;
-  --warning: 38 92% 58%;
-  --warning-foreground: 30 40% 8%;
-  --destructive: 350 78% 60%;
-  --destructive-foreground: 0 0% 100%;
+  --warning: 30 6% 38%;              /* caution = gray ink */
+  --warning-foreground: 0 0% 100%;
+  --destructive: 30 8% 10%;          /* negative = black */
+  --destructive-foreground: 42 33% 96%;
 
-  --radius: 0.85rem;
+  --radius: 0rem;                    /* sharp, brutalist */
 }
 
 @theme inline {
@@ -71,48 +70,35 @@
   --color-destructive: hsl(var(--destructive));
   --color-destructive-foreground: hsl(var(--destructive-foreground));
 
-  --radius-lg: var(--radius);
-  --radius-md: calc(var(--radius) - 0.25rem);
-  --radius-sm: calc(var(--radius) - 0.45rem);
-  --radius-xl: calc(var(--radius) + 0.35rem);
-  --radius-2xl: calc(var(--radius) + 0.75rem);
+  /* Sharp corners everywhere (brutalist) */
+  --radius-sm: 0rem;
+  --radius-md: 0rem;
+  --radius-lg: 0rem;
+  --radius-xl: 0rem;
+  --radius-2xl: 0rem;
 
   --font-sans: var(--font-geist-sans);
+  --font-serif: var(--font-fraunces);
   --font-mono: var(--font-geist-mono);
 
-  /* Animation tokens → generate animate-* utilities */
-  --animate-float: float 7s ease-in-out infinite;
-  --animate-aurora: aurora 18s ease infinite;
-  --animate-shimmer: shimmer 2.2s linear infinite;
+  /* Animation tokens → animate-* utilities */
   --animate-marquee: marquee 38s linear infinite;
-  --animate-fade-up: fade-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
-  --animate-pulse-glow: pulse-glow 3.5s ease-in-out infinite;
+  --animate-fade-up: fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-shimmer: shimmer 1.6s linear infinite;
+  --animate-ticker: marquee 26s linear infinite;
 }
 
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-14px); }
-}
-@keyframes aurora {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  33% { transform: translate(4%, -6%) scale(1.08); }
-  66% { transform: translate(-5%, 4%) scale(0.96); }
-}
-@keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
-}
 @keyframes marquee {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
 }
 @keyframes fade-up {
-  from { opacity: 0; transform: translateY(16px); }
+  from { opacity: 0; transform: translateY(14px); }
   to { opacity: 1; transform: translateY(0); }
 }
-@keyframes pulse-glow {
-  0%, 100% { opacity: 0.55; }
-  50% { opacity: 1; }
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
 }
 
 @layer base {
@@ -122,6 +108,7 @@
   html {
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
   }
   body {
     background-color: hsl(var(--background));
@@ -130,89 +117,78 @@
     overflow-x: hidden;
   }
   ::selection {
-    background-color: hsl(var(--primary) / 0.3);
-    color: hsl(var(--foreground));
+    background-color: hsl(var(--accent));
+    color: hsl(var(--accent-foreground));
   }
-  /* Custom scrollbar */
-  ::-webkit-scrollbar { width: 10px; height: 10px; }
-  ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb {
-    background: hsl(var(--border));
-    border-radius: 9999px;
-    border: 2px solid transparent;
-    background-clip: content-box;
-  }
-  ::-webkit-scrollbar-thumb:hover { background: hsl(var(--muted-foreground) / 0.5); background-clip: content-box; }
+  /* Editorial scrollbar */
+  ::-webkit-scrollbar { width: 12px; height: 12px; }
+  ::-webkit-scrollbar-track { background: hsl(var(--muted)); }
+  ::-webkit-scrollbar-thumb { background: hsl(var(--foreground)); border: 3px solid hsl(var(--muted)); }
 }
 
 @layer components {
-  /* Frosted glass surface */
+  /* Editorial labels — uppercase mono, tracked out */
+  .label {
+    font-family: var(--font-mono), monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-size: 0.7rem;
+    font-weight: 500;
+  }
+
+  /* Hard offset shadows (neo-brutalist) */
+  .shadow-brutal { box-shadow: 5px 5px 0 0 hsl(var(--foreground)); }
+  .shadow-brutal-sm { box-shadow: 3px 3px 0 0 hsl(var(--foreground)); }
+  .shadow-brutal-lg { box-shadow: 8px 8px 0 0 hsl(var(--foreground)); }
+  .shadow-brutal-accent { box-shadow: 5px 5px 0 0 hsl(var(--accent)); }
+
+  /* "Press" interaction: nudge into the shadow on hover/active */
+  .press { transition: transform 0.12s ease, box-shadow 0.12s ease; }
+  .press:hover { transform: translate(2px, 2px); box-shadow: 3px 3px 0 0 hsl(var(--foreground)); }
+  .press:active { transform: translate(5px, 5px); box-shadow: 0 0 0 0 hsl(var(--foreground)); }
+
+  /* Legacy utility names remapped to the editorial language so any
+     stray references still render on-brand. */
   .glass {
-    background: linear-gradient(180deg, hsl(var(--card) / 0.7), hsl(var(--card) / 0.4));
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    border: 1px solid hsl(var(--border) / 0.8);
+    background: hsl(var(--card));
+    border: 1px solid hsl(var(--foreground));
   }
   .glass-strong {
-    background: hsl(var(--background-elevated) / 0.85);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid hsl(var(--border));
-  }
-
-  /* Gradient text */
-  .text-gradient {
-    background: linear-gradient(110deg, hsl(var(--foreground)) 0%, hsl(var(--primary)) 45%, hsl(var(--accent)) 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-  }
-  .text-gradient-brand {
-    background: linear-gradient(110deg, hsl(var(--primary)), hsl(var(--accent)));
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-  }
-
-  /* Glow */
-  .glow-primary { box-shadow: 0 0 0 1px hsl(var(--primary) / 0.2), 0 8px 40px -8px hsl(var(--primary) / 0.55); }
-  .glow-soft { box-shadow: 0 10px 50px -12px hsl(var(--primary) / 0.35); }
-
-  /* Animated gradient border */
-  .border-gradient {
-    position: relative;
     background: hsl(var(--card));
+    border: 2px solid hsl(var(--foreground));
   }
-  .border-gradient::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    padding: 1px;
-    background: linear-gradient(130deg, hsl(var(--primary) / 0.7), hsl(var(--accent) / 0.5), transparent 60%);
-    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    pointer-events: none;
+  .border-gradient { border: 2px solid hsl(var(--foreground)); background: hsl(var(--card)); }
+  .glow-primary { box-shadow: 5px 5px 0 0 hsl(var(--foreground)); }
+  .glow-soft { box-shadow: 3px 3px 0 0 hsl(var(--foreground)); }
+
+  .text-gradient { color: hsl(var(--foreground)); }
+  .text-gradient-brand { color: hsl(var(--accent)); }
+
+  /* Accent underline for editorial emphasis */
+  .ink-underline {
+    background-image: linear-gradient(hsl(var(--accent)), hsl(var(--accent)));
+    background-size: 100% 3px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
   }
 
-  /* Decorative backgrounds */
+  /* Ledger-paper grid + dots */
   .bg-grid {
     background-image:
-      linear-gradient(to right, hsl(var(--border) / 0.35) 1px, transparent 1px),
-      linear-gradient(to bottom, hsl(var(--border) / 0.35) 1px, transparent 1px);
-    background-size: 56px 56px;
+      linear-gradient(to right, hsl(var(--foreground) / 0.06) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(var(--foreground) / 0.06) 1px, transparent 1px);
+    background-size: 64px 64px;
   }
   .bg-dots {
-    background-image: radial-gradient(hsl(var(--border) / 0.6) 1px, transparent 1px);
+    background-image: radial-gradient(hsl(var(--foreground) / 0.12) 1px, transparent 1px);
     background-size: 22px 22px;
   }
-  .mask-fade-b { mask-image: linear-gradient(to bottom, #000 55%, transparent); }
-  .mask-fade-edges { mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent); }
+  .mask-fade-b { mask-image: linear-gradient(to bottom, #000 60%, transparent); }
+  .mask-fade-edges { mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent); }
 
-  /* Shimmer skeleton */
+  /* Shimmer skeleton (paper-toned) */
   .shimmer {
-    background: linear-gradient(90deg, hsl(var(--muted)) 25%, hsl(var(--muted-foreground) / 0.15) 50%, hsl(var(--muted)) 75%);
+    background: linear-gradient(90deg, hsl(var(--muted)) 25%, hsl(var(--background)) 50%, hsl(var(--muted)) 75%);
     background-size: 200% 100%;
     animation: var(--animate-shimmer);
   }

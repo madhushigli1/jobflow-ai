@@ -23,7 +23,8 @@
   <a href="#design-system">Design System</a> •
   <a href="#folder-structure">Folder Structure</a> •
   <a href="#run-locally">Run locally</a> •
-  <a href="#tech-stack">Tech Stack</a>
+  <a href="#tech-stack">Tech Stack</a> •
+  <a href="docs/README.md">Full Docs</a>
 </p>
 
 ---

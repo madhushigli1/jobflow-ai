@@ -70,47 +70,64 @@ JobFlow AI matches job seekers to roles by AI fit score, tracks every applicatio
 
 ## Architecture
 
-```
-                     ┌─────────────────────────┐
-                     │   app/ (Next.js routes)  │
-                     │  /, /jobs, /jobs/[id],   │
-                     │  /dashboard, /ai-tools   │
-                     └────────────┬─────────────┘
-                                  │ renders
-                                  ▼
-                     ┌─────────────────────────┐
-                     │        features/         │
-                     │  marketing · jobs        │
-                     │  applications · analytics│
-                     │  ai-tools                │
-                     │  (hooks + components)    │
-                     └────────────┬─────────────┘
-                                  │ calls
-                                  ▼
-                     ┌─────────────────────────┐
-                     │  shared/lib/api-client   │
-                     │  api.jobs · api.applications │
-                     │  api.user · api.analytics │
-                     │  (typed, ApiResponse<T>, │
-                     │   simulated latency)     │
-                     └────────────┬─────────────┘
-                                  │ reads
-                                  ▼
-                     ┌─────────────────────────┐
-                     │   shared/lib/mock-db     │
-                     │  seed jobs, applications,│
-                     │  user, testimonials      │
-                     └─────────────────────────┘
+```mermaid
+flowchart TD
+    subgraph ROUTES["app/ — Next.js Routes (App Router)"]
+        direction LR
+        R_HOME["/"]
+        R_JOBS["/jobs"]
+        R_JOB["/jobs/[id]"]
+        R_DASH["/dashboard"]
+        R_ANALYTICS["/dashboard/analytics"]
+        R_AI["/ai-tools"]
+    end
 
-                     ┌─────────────────────────┐
-                     │        shared/ui         │
-                     │  Button · Card · Badge   │
-                     │  Select · Progress ·     │
-                     │  ScoreRing · Skeleton…   │
-                     │  (CVA-based primitives)  │
-                     └─────────────────────────┘
-                     consumed by every feature — never the other way
+    subgraph FEATURES["features/ — Business Domains"]
+        direction LR
+        F_MARKETING["marketing"]
+        F_JOBS["jobs"]
+        F_APPS["applications"]
+        F_ANALYTICS["analytics"]
+        F_AI["ai-tools"]
+    end
+
+    subgraph SHARED["shared/"]
+        direction LR
+        UI["ui/<br/>CVA primitives<br/>Button · Card · Badge · Select"]
+        API["lib/api-client.ts<br/>typed ApiResponse, simulated latency"]
+        DB[("lib/mock-db.ts<br/>seed jobs, applications, user")]
+    end
+
+    R_HOME --> F_MARKETING
+    R_JOBS --> F_JOBS
+    R_JOB --> F_JOBS
+    R_DASH --> F_APPS
+    R_ANALYTICS --> F_ANALYTICS
+    R_AI --> F_AI
+
+    F_MARKETING -.->|uses| UI
+    F_JOBS -.->|uses| UI
+    F_APPS -.->|uses| UI
+    F_ANALYTICS -.->|uses| UI
+    F_AI -.->|uses| UI
+
+    F_JOBS -->|api.jobs.*| API
+    F_APPS -->|api.applications.*| API
+    F_ANALYTICS -->|api.analytics.*| API
+    F_AI -->|api.user.*| API
+
+    API -->|reads seed data| DB
+
+    classDef route fill:#111111,stroke:#111111,color:#ffffff
+    classDef feature fill:#E63329,stroke:#111111,color:#ffffff
+    classDef shared fill:#F7F4ED,stroke:#111111,color:#111111
+
+    class R_HOME,R_JOBS,R_JOB,R_DASH,R_ANALYTICS,R_AI route
+    class F_MARKETING,F_JOBS,F_APPS,F_ANALYTICS,F_AI feature
+    class UI,API,DB shared
 ```
+
+**Reading the diagram:** solid arrows are runtime data calls (a feature's hook calling into the API client, the API client reading the mock DB); dotted arrows are compile-time UI composition (a feature rendering shared primitives). Nothing ever calls "up" or sideways across features — data and UI both flow one direction, top to bottom.
 
 1. **Routes** (`app/`) are thin — they compose feature components and own Next.js concerns only: `generateStaticParams`, `generateMetadata`, async `params`, loading/error boundaries.
 2. **Features** (`features/*`) own a business domain end to end: components, hooks, and (for `ai-tools`) a simulation lib. Each exposes a single public `index.ts` barrel; features never import from another feature.
